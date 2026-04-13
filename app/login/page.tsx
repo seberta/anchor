@@ -32,13 +32,18 @@ export default function LoginPage() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
       setError(error.message);
+      setLoading(false);
+    } else if (data.session) {
+      // Email confirmation is disabled — session is returned immediately
+      router.push("/dashboard");
     } else {
+      // Email confirmation is enabled — session won't exist yet
       setError("Check your email for a confirmation link.");
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
