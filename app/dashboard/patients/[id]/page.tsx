@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ContextEditor from "./ContextEditor";
 import ChatLinkBox from "./ChatLinkBox";
+import ArchivePatientButton from "./ArchivePatientButton";
 
 export default async function PatientPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -32,11 +33,14 @@ export default async function PatientPage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4">
-        <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-800">
-          ← Patients
-        </Link>
-        <h1 className="font-semibold text-lg">{patient.name}</h1>
+      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard" className="text-sm text-gray-500 hover:text-gray-800">
+            ← Patients
+          </Link>
+          <h1 className="font-semibold text-lg">{patient.name}</h1>
+        </div>
+        <ArchivePatientButton patientId={patient.id} />
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-8 space-y-8">
