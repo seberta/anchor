@@ -15,9 +15,9 @@ export default function ConversationActions({
   const [notes, setNotes] = useState(initialNotes);
   const [flagged, setFlagged] = useState(initialFlagged);
   const [saved, setSaved] = useState(false);
-  const supabase = createClient();
 
   async function handleSave() {
+    const supabase = createClient();
     await supabase
       .from("conversations")
       .update({ therapist_notes: notes, flagged })

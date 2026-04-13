@@ -13,10 +13,10 @@ export default function ContextEditor({
   const [content, setContent] = useState(initialContent);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
 
   async function handleSave() {
     setLoading(true);
+    const supabase = createClient();
     await supabase
       .from("patient_context")
       .update({ content, updated_at: new Date().toISOString() })
