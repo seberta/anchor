@@ -32,16 +32,21 @@ export default function LoginPage() {
     setError(null);
 
     const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
       setError(error.message);
       setLoading(false);
-    } else if (data.session) {
-      // Email confirmation is disabled — session is returned immediately
+      return;
+    }
+
+    // Whether or not confirmation is required, try signing in immediately.
+    // If email confirmation is disabled this will succeed. If not, it will
+    // fail gracefully and we fall back to the confirmation message.
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (!signInError) {
       router.push("/dashboard");
     } else {
-      // Email confirmation is enabled — session won't exist yet
-      setError("Check your email for a confirmation link.");
+      setError("Account created! Press \"Sign in\" to continue.");
       setLoading(false);
     }
   }
