@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import ConversationActions from "./ConversationActions";
 
@@ -10,8 +10,6 @@ export default async function ConversationPage({
 }) {
   const { id, conversationId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: conversation } = await supabase
     .from("conversations")

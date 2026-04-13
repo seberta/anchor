@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import ContextEditor from "./ContextEditor";
 import ChatLinkBox from "./ChatLinkBox";
@@ -7,8 +7,6 @@ import ChatLinkBox from "./ChatLinkBox";
 export default async function PatientPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const { data: patient } = await supabase
     .from("patients")
